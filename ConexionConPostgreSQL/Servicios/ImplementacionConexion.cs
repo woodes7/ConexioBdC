@@ -11,51 +11,48 @@ using System.Configuration;
 
 namespace ConexionConPostgreSQL.Conexion
 {
-    internal class ImplementacionConexion : InterfazConexion
-    {
-        public NpgsqlConnection InterfazConexionEestableceConexion()
-        {
-           
+     class ImplementacionConexion : InterfazConexion{       
 
         NpgsqlConnection InterfazConexion.EstableceConexion()
         {
-                //Se lee la cadena de conexión a Postgresql del archivo de configuración
-                string stringConexionPostgresql = ConfigurationManager.ConnectionStrings["stringConexion"].ConnectionString;
-                Console.WriteLine("[INFORMACIÓN-ConexionPostgresqlImplementacion-generarConexionPostgresql] Cadena conexión: " + stringConexionPostgresql);
+            //Se lee la cadena de conexión a Postgresql del archivo de configuración
+            string stringConexionPostgresql = ConfigurationManager.ConnectionStrings["stringConexion"].ConnectionString;
+            Console.WriteLine("[INFORMACIÓN-ConexionPostgresqlImplementacion-generarConexionPostgresql] Cadena conexión: " + stringConexionPostgresql);
 
-                NpgsqlConnection conexion = null;
-                string estado = "";
+            NpgsqlConnection conexion = null;
+            string estado = "";
 
-                if (!string.IsNullOrWhiteSpace(stringConexionPostgresql))
+            if (!string.IsNullOrWhiteSpace(stringConexionPostgresql))
+            {
+                try
                 {
-                    try
+                    conexion = new NpgsqlConnection(stringConexionPostgresql);
+                    conexion.Open();
+                    //Se obtiene el estado de conexión para informarlo por consola
+                    estado = conexion.State.ToString();
+                    if (estado.Equals("Open"))
                     {
-                        conexion = new NpgsqlConnection(stringConexionPostgresql);
-                        conexion.Open();
-                        //Se obtiene el estado de conexión para informarlo por consola
-                        estado = conexion.State.ToString();
-                        if (estado.Equals("Open"))
-                        {
 
-                            Console.WriteLine("[INFORMACIÓN-ConexionPostgresqlImplementacion-generarConexionPostgresql] Estado conexión: " + estado);
+                        Console.WriteLine("[INFORMACIÓN-ConexionPostgresqlImplementacion-generarConexionPostgresql] Estado conexión: " + estado);
 
-                        }
-                        else
-                        {
-                            conexion = null;
-                        }
                     }
-                    catch (Exception e)
+                    else
                     {
-                        Console.WriteLine("[ERROR-ConexionPostgresqlImplementacion-generarConexionPostgresql] Error al generar la conexión:" + e);
                         conexion = null;
-                        return conexion;
-
                     }
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine("[ERROR-ConexionPostgresqlImplementacion-generarConexionPostgresql] Error al generar la conexión:" + e);
+                    conexion = null;
+                    return conexion;
 
-                return conexion;
+                }
             }
+
+            return conexion;
+            
         }
     }
 }
+
