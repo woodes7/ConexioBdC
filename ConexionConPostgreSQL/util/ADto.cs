@@ -2,6 +2,7 @@
 using Npgsql;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,8 +13,8 @@ namespace ConexionConPostgreSQL.Util
     { /// <summary>S
       /// Métodos que pasan a objeto de tipo DTO
       /// </summary>
-        
-        public List<LibroDto> readerALibroDto(NpgsqlDataReader resultadoConsulta)
+
+        public List<LibroDto> ResultadoALibrosDto(NpgsqlDataReader resultadoConsulta)
         {
             List<LibroDto> listaLibros = new List<LibroDto>();
             while (resultadoConsulta.Read())
@@ -30,24 +31,9 @@ namespace ConexionConPostgreSQL.Util
             }
             return listaLibros;
         }
-        public LibroDto readerLibroSeleccionado(NpgsqlDataReader resultadoConsulta)
-        {
-            if (resultadoConsulta.Read())
-            {
-                LibroDto libroSeleccionado = readerLibroSeleccionado(resultadoConsulta);
-                Console.WriteLine("Información del libro escogido: ");
-                Console.WriteLine("ID: " + libroSeleccionado.Id_libro);
-                Console.WriteLine("Título: " + libroSeleccionado.Titulo);
-                Console.WriteLine("Autor: " + libroSeleccionado.Autor);
-                Console.WriteLine("ISBN: " + libroSeleccionado.Isbn);
-                Console.WriteLine("Edicion: " + libroSeleccionado.Edicion);
-            }
-            else
-            {
-                Console.WriteLine("No se encontró ningún libro con la ID especificada.");
-            }
-       
-    }
 
+        
     }
 }
+
+

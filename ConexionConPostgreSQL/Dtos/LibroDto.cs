@@ -35,7 +35,14 @@ namespace ConexionConPostgreSQL.Dtos
             this.isbn = isbn;
             this.edicion = edicion;
         }
-
+        public LibroDto( string titulo, string autor, string isbn, int edicion)
+        {
+            this.id_libro = id_libro;
+            this.titulo = titulo;
+            this.autor = autor;
+            this.isbn = isbn;
+            this.edicion = edicion;
+        }
         public LibroDto()
         {
         }
